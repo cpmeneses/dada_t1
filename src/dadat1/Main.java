@@ -1,6 +1,5 @@
 package dadat1;
 
 public class Main {
-  //comentario
-  //mas comentarios
+  //una clase para cada heuristica
 }
