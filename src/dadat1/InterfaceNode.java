@@ -1,6 +1,6 @@
 package dadat1;
 
 public interface InterfaceNode {
-  void addRectangle();
+  boolean addRectangle(Rectangle rect);
   int findExpansion(Rectangle rect);
 }

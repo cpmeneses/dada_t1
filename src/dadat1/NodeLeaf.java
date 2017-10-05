@@ -27,16 +27,13 @@ public class NodeLeaf extends Node implements InterfaceNode{
   }
 
   @Override
-  public void addRectangle() {
-    // TODO Auto-generated method stub
-  
-  }
-
-  @Override
   public int findExpansion(Rectangle rect) {
-    // TODO Auto-generated method stub
+    int rx1, rx2, ry1, ry2;
+    
     return 0;
   }
   
-  
+  public Rectangle showRectangle(int i) {
+    return rectangle_array[i];
+  }
 }

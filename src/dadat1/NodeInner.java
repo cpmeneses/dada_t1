@@ -13,11 +13,6 @@ public class NodeInner extends Node implements InterfaceNode{
     num_nodes = 0;
   }
   
-  public void addRectangle() {
-    //ver cual en child_array tiene que crecer menos
-    //y agregarlo ahí
-  }
-  
   public boolean addNode() {
     //si hay un overflow debajo, se hace crecer.
     return false;
@@ -60,5 +55,13 @@ public class NodeInner extends Node implements InterfaceNode{
   public int findExpansion(Rectangle rect) {
     //encuantra cuanto debe expandirse mbr para que el rectangulo quepa
     return 0;
+  }
+
+  @Override
+  public boolean addRectangle(Rectangle rect) {
+	//ver cual en child_array tiene que crecer menos
+	//y agregarlo ahí
+    //retornar false si hay overflow
+    return false;
   }
 }
