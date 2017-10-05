@@ -1,6 +1,7 @@
 package dadat1;
 
-public abstract class NodeLeaf extends Node implements InterfaceNode{
+public class NodeLeaf extends Node implements InterfaceNode{
+  private boolean isRoot;
   private Rectangle mbr;
   private Rectangle[] rectangle_array;
   int min; //minimo de rectangulos
@@ -8,6 +9,7 @@ public abstract class NodeLeaf extends Node implements InterfaceNode{
   int num_rects; //rectangulos en rectangle_array
   
   public NodeLeaf(int m, int M) {
+    this.isRoot = false;
     this.min = m;
     this.max = M;
     num_rects = 0;
@@ -22,5 +24,16 @@ public abstract class NodeLeaf extends Node implements InterfaceNode{
     } else {
       return false;
     }
+  }
+
+  @Override
+  public int findExpansion(Rectangle rect) {
+    int rx1, rx2, ry1, ry2;
+    
+    return 0;
+  }
+  
+  public Rectangle showRectangle(int i) {
+    return rectangle_array[i];
   }
 }
