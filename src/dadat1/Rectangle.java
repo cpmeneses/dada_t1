@@ -23,4 +23,9 @@ public class Rectangle {
     Rectangle res = new Rectangle(rx1, rx2, ry1, ry2);
     return res;
   }
+  
+  public int giveArea() {
+    int res = (x2-x1)*(y2-y1);
+    return res;
+  }
 }

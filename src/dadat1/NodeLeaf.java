@@ -28,12 +28,16 @@ public class NodeLeaf extends Node implements InterfaceNode{
 
   @Override
   public int findExpansion(Rectangle rect) {
-    int rx1, rx2, ry1, ry2;
-    
-    return 0;
+    Rectangle surr_rect = mbr.surroundRect(rect);
+    int expand_area = surr_rect.giveArea() - this.mbr.giveArea();
+    return expand_area;
   }
   
   public Rectangle showRectangle(int i) {
     return rectangle_array[i];
+  }
+  
+  public Rectangle[] giveRectangles() {
+    return rectangle_array;
   }
 }
