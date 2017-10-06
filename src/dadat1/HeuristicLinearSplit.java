@@ -35,7 +35,7 @@ public class HeuristicLinearSplit implements InterfaceHeuristic {
   public Rectangle[] randomizeRectArray(Rectangle[] rects) {  
     int l = rects.length;
     Rectangle[] res = new Rectangle[l];
-    Random rand = new Random();
+    Random rand = new Random(System.currentTimeMillis());
     int pos;
     for (int i = l-1; i >= 0; i--) {
       pos = rand.nextInt(i+1);
