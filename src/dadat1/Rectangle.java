@@ -1,12 +1,18 @@
 package dadat1;
 
 public class Rectangle {
+  boolean defined;
   double x1;
   double x2;
   double y1;
   double y2;
   
+  public Rectangle() {
+    this.defined = false;
+  }
+  
   public Rectangle(double x1, double x2, double y1, double y2) {
+    this.defined = true;
     this.x1 = x1;
     this.x2 = x2;
     this.y1 = y1;
@@ -15,6 +21,9 @@ public class Rectangle {
   
   public Rectangle surroundRect(Rectangle rect) {
     //entrega el mbr de this y rect
+    if (!this.defined) {
+      return rect;
+    }
     double rx1, rx2, ry1, ry2;
     rx1 = Math.min(this.x1, rect.x1);
     rx2 = Math.max(this.x2, rect.x2);

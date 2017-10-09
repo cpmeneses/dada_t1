@@ -14,12 +14,12 @@ public class NodeLeaf extends Node implements InterfaceNode{
     this.max = M;
     num_rects = 0;
     rectangle_array = new Rectangle[this.max];
-    //falta el mbr
-    this.mbr = new Rectangle(-1,-1,-1,-1); //probablemente no sirva todos -1
+    this.mbr = new Rectangle();
   }
   
   public boolean addRectangle(Rectangle rect) {
     if (num_rects < max) {
+      this.mbr = mbr.surroundRect(rect);
       this.rectangle_array[num_rects] = rect;
       //falta actualizar el mbr
       return true;

@@ -18,6 +18,10 @@ public class NodeInner extends Node implements InterfaceNode{
     max = M;
   }
   
+  public void makeRoot() {
+    this.isRoot = true;
+  }
+  
   public boolean addNode() {
     //si hay un overflow debajo, se hace crecer.
     return false;
