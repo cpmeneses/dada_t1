@@ -8,9 +8,18 @@ public class NodeInner extends Node implements InterfaceNode{
   private boolean isRoot;
   int min;
   int max;
+  Rectangle mbr;
   
-  public NodeInner() {
+  public NodeInner(int m, int M) {
     num_nodes = 0;
+    isRoot = false;
+    child_array = new Node[M];
+    min = m;
+    max = M;
+  }
+  
+  public void makeRoot() {
+    this.isRoot = true;
   }
   
   public boolean addNode() {
@@ -22,9 +31,9 @@ public class NodeInner extends Node implements InterfaceNode{
     //entrega la posicion del nodo/recrangulo en child_array
     //que debe crecer menos para agregar a rect
     //si hay empate se debe elegir al azar
-    int array_expand[] = new int[num_nodes]; //cuanto debe expandirse cada uno
-    int iter_expand;
-    int min_expand = child_array[0].findExpansion(rect);
+    double array_expand[] = new double[num_nodes]; //cuanto debe expandirse cada uno
+    double iter_expand;
+    double min_expand = child_array[0].findExpansion(rect);
     array_expand[0] = min_expand;
     int tied = 1;
     for(int i = 1; i < num_nodes; i++) {
@@ -50,11 +59,6 @@ public class NodeInner extends Node implements InterfaceNode{
       }
     }
     return win;
-  }
-  
-  public int findExpansion(Rectangle rect) {
-    //encuantra cuanto debe expandirse mbr para que el rectangulo quepa
-    return 0;
   }
 
   @Override
