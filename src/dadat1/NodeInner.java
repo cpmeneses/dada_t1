@@ -22,13 +22,18 @@ public class NodeInner extends Node implements InterfaceNode{
     this.isRoot = true;
   }
   
-  public boolean addNode() {
-    //si hay un overflow debajo, se hace crecer.
-    return false;
+  public boolean addNode(Node node) {
+    if (num_nodes < max) {
+      child_array[num_nodes] = node;
+      num_nodes++;
+      return true;
+    } else {
+      return false;
+    }
   }
   
   public int findTightest(Rectangle rect) {
-    //entrega la posicion del nodo/recrangulo en child_array
+    //entrega la posicion del nodo/rectangulo en child_array
     //que debe crecer menos para agregar a rect
     //si hay empate se debe elegir al azar
     double array_expand[] = new double[num_nodes]; //cuanto debe expandirse cada uno
@@ -62,10 +67,20 @@ public class NodeInner extends Node implements InterfaceNode{
   }
 
   @Override
-  public boolean addRectangle(Rectangle rect) {
+  public Arrayable[] addRectangle(Rectangle rect) {
 	//ver cual en child_array tiene que crecer menos
 	//y agregarlo ahí
-    //retornar false si hay overflow
-    return false;
+    //si le retornar algo distinto a un nodeVoid:
+    //partir el con overflow en dos, junto a lo que me devuelva
+    //retornar false si hay overflow propio
+    int tightest = findTightest(rect);
+    Arrayable[] ans = child_array[tightest].addRectangle(rect);
+    if (ans[0].isVoid()) {
+      return ans;
+    } else {
+      //partir al de abajo en dos, junto a lo recibido
+      //usando la heuristica
+      return ans;
+    }
   }
 }

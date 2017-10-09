@@ -1,6 +1,6 @@
 package dadat1;
 
-public class Rectangle {
+public class Rectangle extends Arrayable{
   boolean defined;
   double x1;
   double x2;
@@ -17,6 +17,10 @@ public class Rectangle {
     this.x2 = x2;
     this.y1 = y1;
     this.y2 = y2;
+  }
+  
+  public boolean isVoid() {
+    return false;
   }
   
   public Rectangle surroundRect(Rectangle rect) {
