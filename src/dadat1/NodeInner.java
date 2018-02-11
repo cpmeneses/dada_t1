@@ -9,6 +9,7 @@ public class NodeInner extends Node implements InterfaceNode{
   int min;
   int max;
   Rectangle mbr;
+  InterfaceHeuristic heuristic;
   
   public NodeInner(int m, int M) {
     num_nodes = 0;
@@ -60,7 +61,9 @@ public class NodeInner extends Node implements InterfaceNode{
         if (random.nextInt(candidates_left) == 0) {
           win = i;
           break;
-        }
+        } else { //areglo de bug?
+          candidates_left--;
+        } //fin arreglo de bug?
       }
     }
     return win;

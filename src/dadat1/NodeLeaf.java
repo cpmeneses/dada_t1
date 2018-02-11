@@ -20,12 +20,15 @@ public class NodeLeaf extends Node implements InterfaceNode{
   public Arrayable[] addRectangle(Rectangle rect) {
     Arrayable[] ans;
     if (num_rects < max) {
+      //agregar rect. hacer crecer mbr
       this.mbr = mbr.surroundRect(rect);
       this.rectangle_array[num_rects] = rect;
+      //respuesta: todo en orden
       ans = new Arrayable[1];
       ans[0] = new ArrayableVoid();
       return ans;
     } else {
+      //respuesta: no puedo meter este rectangulo
       ans = new Arrayable[1];
       ans[0] = rect;
       return ans;
