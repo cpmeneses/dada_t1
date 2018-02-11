@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class HeuristicLinearSplit implements InterfaceHeuristic {
   @Override
-  public Node[] splitNodeLeaf(NodeLeaf node, Rectangle rect, int m, int M) {
+  public Node[] splitNode(Node node, Arrayable rect, int m, int M) {
     //Toma el nodo con overflow y el rectangulo que causa el overflow
     //Y retorna un arreglo con dos nodos correctos
     Node node1 = new NodeLeaf(m, M);
@@ -15,16 +15,16 @@ public class HeuristicLinearSplit implements InterfaceHeuristic {
     int in2 = 0;
     
     //inicializar un arreglo de todos los rectanguloss
-    Rectangle[] oldrects = node.giveRectangles();
+    Arrayable[] oldrects = node.giveArrayables();
     int l = oldrects.length;
-    Rectangle[] rects = new Rectangle[l + 1];
+    Arrayable[] rects = new Arrayable[l + 1];
     for (int i = 0; i < l; i++) {
       rects[i] = oldrects[i];
     }
     rects[l] = rect;
     
     //aleatorizarlo
-    rects = this.randomizeRectArray(rects);
+    rects = this.randomizeArrayableArray(rects);
     
     Node[] res = new Node[2];
     res[0] = node1;
@@ -32,9 +32,9 @@ public class HeuristicLinearSplit implements InterfaceHeuristic {
     return res;
   }
   
-  public Rectangle[] randomizeRectArray(Rectangle[] rects) {  
+  public Arrayable[] randomizeArrayableArray(Arrayable[] rects) {  
     int l = rects.length;
-    Rectangle[] res = new Rectangle[l];
+    Arrayable[] res = new Arrayable[l];
     Random rand = new Random(System.currentTimeMillis());
     int pos;
     for (int i = l-1; i >= 0; i--) {

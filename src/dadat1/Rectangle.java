@@ -23,8 +23,9 @@ public class Rectangle extends Arrayable{
     return false;
   }
   
-  public Rectangle surroundRect(Rectangle rect) {
+  public Rectangle surroundRect(Arrayable arrb) {
     //entrega el mbr de this y rect
+    Rectangle rect = arrb.getRectangle();
     if (!this.defined) {
       return rect;
     }
@@ -40,5 +41,10 @@ public class Rectangle extends Arrayable{
   public double giveArea() {
     double res = (x2-x1)*(y2-y1);
     return res;
+  }
+
+  @Override
+  public Rectangle getRectangle() {
+    return this;
   }
 }

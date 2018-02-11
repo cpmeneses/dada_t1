@@ -2,7 +2,7 @@ package dadat1;
 
 import java.util.Random;
 
-public class NodeInner extends Node implements InterfaceNode{
+public class NodeInner extends Node{
   private Node child_array[];
   int num_nodes;
   private boolean isRoot;
@@ -70,20 +70,62 @@ public class NodeInner extends Node implements InterfaceNode{
   }
 
   @Override
-  public Arrayable[] addRectangle(Rectangle rect) {
+  public Arrayable[] addArrayable(Arrayable arrb) {
 	//ver cual en child_array tiene que crecer menos
 	//y agregarlo ahí
     //si le retornar algo distinto a un nodeVoid:
     //partir el con overflow en dos, junto a lo que me devuelva
     //retornar false si hay overflow propio
+    Rectangle rect = arrb.getRectangle();
     int tightest = findTightest(rect);
-    Arrayable[] ans = child_array[tightest].addRectangle(rect);
+    Arrayable[] ans = child_array[tightest].addArrayable(rect);
     if (ans[0].isVoid()) {
       return ans;
     } else {
       //partir al de abajo en dos, junto a lo recibido
       //usando la heuristica
+      heuristic.splitNode(child_array[tightest], rect, min, max);
       return ans;
     }
+  }
+  
+  public Rectangle surroundRect(Rectangle rect) {
+    return this.mbr.surroundRect(rect);
+  }
+
+//  @Override
+//  public Arrayable[] addRectangle(Node node) {
+//    Arrayable[] ans;
+//    if (num_nodes < max) {
+//      //agregar rect. hacer crecer mbr
+//      this.mbr = mbr.surroundRect(node);
+//      this.child_array[num_nodes] = node;
+//      //respuesta: todo en orden
+//      ans = new Arrayable[1];
+//      ans[0] = new ArrayableVoid();
+//      return ans;
+//    } else {
+//      //respuesta: no puedo meter este rectangulo
+//      ans = new Arrayable[1];
+//      ans[0] = rect;
+//      return ans;
+//    }
+//  }
+
+  @Override
+  public Arrayable[] giveArrayables() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Rectangle surroundRect(Arrayable arbs) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  @Override
+  public Rectangle getRectangle() {
+    return this.mbr;
   }
 }

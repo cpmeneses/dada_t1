@@ -4,16 +4,16 @@ import java.util.Random;
 
 public class HeuristicQuadraticSplit implements InterfaceHeuristic {
   @Override
-  public Node[] splitNodeLeaf(NodeLeaf node, Rectangle rect, int m, int M) {
+  public Node[] splitNode(Node node, Arrayable rect, int m, int M) {
     //Toma el nodo con overflow y el rectangulo que causa el overflow
     //Y retorna un arreglo con dos nodos correctos
     
     
     //implementar
     //inicializar un arreglo de todos los rectanguloss
-    Rectangle[] oldrects = node.giveRectangles();
+    Arrayable[] oldrects = node.giveArrayables();
     int l = oldrects.length;
-    Rectangle[] rects = new Rectangle[l + 1];
+    Arrayable[] rects = new Arrayable[l + 1];
     for (int i = 0; i < l; i++) {
       rects[i] = oldrects[i];
     }

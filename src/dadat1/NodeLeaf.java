@@ -1,9 +1,9 @@
 package dadat1;
 
-public class NodeLeaf extends Node implements InterfaceNode{
+public class NodeLeaf extends Node{
   private boolean isRoot;
   private Rectangle mbr;
-  private Rectangle[] rectangle_array;
+  private Arrayable[] rectangle_array;
   int min; //minimo de rectangulos
   int max; //maximo de rectangulos
   int num_rects; //rectangulos en rectangle_array
@@ -17,7 +17,7 @@ public class NodeLeaf extends Node implements InterfaceNode{
     this.mbr = new Rectangle();
   }
   
-  public Arrayable[] addRectangle(Rectangle rect) {
+  public Arrayable[] addArrayable(Arrayable rect) {
     Arrayable[] ans;
     if (num_rects < max) {
       //agregar rect. hacer crecer mbr
@@ -42,11 +42,21 @@ public class NodeLeaf extends Node implements InterfaceNode{
     return expand_area;
   }
   
-  public Rectangle showRectangle(int i) {
+  public Arrayable showRectangle(int i) {
     return rectangle_array[i];
   }
   
-  public Rectangle[] giveRectangles() {
+  public Arrayable[] giveArrayables() {
     return rectangle_array;
+  }
+
+  @Override
+  public Rectangle surroundRect(Arrayable arbs) {
+    return this.mbr.surroundRect(arbs);
+  }
+
+  @Override
+  public Rectangle getRectangle() {
+    return this.mbr;
   }
 }
