@@ -3,7 +3,7 @@ package dadat1;
 public class NodeLeaf extends Node{
   private boolean isRoot;
   private Rectangle mbr;
-  private Arrayable[] rectangle_array;
+  private Rectangle[] rectangle_array;
   int min; //minimo de rectangulos
   int max; //maximo de rectangulos
   int num_rects; //rectangulos en rectangle_array
@@ -17,7 +17,7 @@ public class NodeLeaf extends Node{
     this.mbr = new Rectangle();
   }
   
-  public Arrayable[] addArrayable(Arrayable rect) {
+  public Arrayable[] addRectangle(Rectangle rect) {
     Arrayable[] ans;
     if (num_rects < max) {
       //agregar rect. hacer crecer mbr
@@ -46,17 +46,40 @@ public class NodeLeaf extends Node{
     return rectangle_array[i];
   }
   
-  public Arrayable[] giveArrayables() {
-    return rectangle_array;
+  @Override
+  public Arrayable[] getArrayables() {
+    return this.rectangle_array;
   }
 
-  @Override
-  public Rectangle surroundRect(Arrayable arbs) {
-    return this.mbr.surroundRect(arbs);
-  }
+//  @Override
+//  public Rectangle surroundRect(Arrayable arbs) {
+//    return this.mbr.surroundRect(arbs);
+//  }
 
   @Override
   public Rectangle getRectangle() {
     return this.mbr;
+  }
+
+@Override
+public Rectangle[] searchRectangle(Rectangle rect) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+  @Override
+  public boolean addArrayable(Arrayable arbs) {
+    if (num_rects < max) {
+      this.rectangle_array[num_rects] = (Rectangle) arbs;
+      num_rects++;
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  public boolean isLeaf() {
+    return true;
   }
 }

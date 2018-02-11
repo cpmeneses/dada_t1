@@ -15,7 +15,7 @@ public class HeuristicLinearSplit implements InterfaceHeuristic {
     int in2 = 0;
     
     //inicializar un arreglo de todos los rectanguloss
-    Arrayable[] oldrects = node.giveArrayables();
+    Arrayable[] oldrects = node.getArrayables();
     int l = oldrects.length;
     Arrayable[] rects = new Arrayable[l + 1];
     for (int i = 0; i < l; i++) {

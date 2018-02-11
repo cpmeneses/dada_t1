@@ -4,20 +4,20 @@ import java.util.Random;
 
 public class HeuristicQuadraticSplit implements InterfaceHeuristic {
   @Override
-  public Node[] splitNode(Node node, Arrayable rect, int m, int M) {
+  public Node[] splitNode(Node node_to_split, Arrayable arb_to_add, int m, int M) {
     //Toma el nodo con overflow y el rectangulo que causa el overflow
     //Y retorna un arreglo con dos nodos correctos
     
     
     //implementar
-    //inicializar un arreglo de todos los rectanguloss
-    Arrayable[] oldrects = node.giveArrayables();
-    int l = oldrects.length;
-    Arrayable[] rects = new Arrayable[l + 1];
+    //inicializar un arreglo de todos los arrayables
+    Arrayable[] old_arbs = node_to_split.getArrayables();
+    int l = old_arbs.length;
+    Arrayable[] arbs = new Arrayable[l + 1];
     for (int i = 0; i < l; i++) {
-      rects[i] = oldrects[i];
+      arbs[i] = old_arbs[i];
     }
-    rects[l] = rect;
+    arbs[l] = arb_to_add;
     
     //se busca el par con la mayor area inutil
     double max_useless_area = 0;
@@ -29,9 +29,9 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
     Rectangle it_mbr;
     for (int i = 0; i < l; i++) {
       for (int j = i+1; j < l; j++) {
-        it_mbr = oldrects[i].surroundRect(oldrects[j]);
+        it_mbr = old_arbs[i].getRectangle().surroundRect(old_arbs[j]);
         it_area = it_mbr.giveArea();
-        it_useless_area = it_area - oldrects[i].giveArea() - oldrects[j].giveArea();
+        it_useless_area = it_area - old_arbs[i].getRectangle().giveArea() - old_arbs[j].getRectangle().giveArea();
         if (it_useless_area > max_useless_area) {
           max_useless_area = it_useless_area;
           max_par[0] = i;
@@ -40,13 +40,21 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       }
     }
     
-    //reordenar
-    rects[max_par[1]] = rects[l-1];
-    rects[max_par[0]] = rects[l-2];
+    //reordenar.
+    arbs[max_par[1]] = arbs[l-1];
+    arbs[max_par[0]] = arbs[l-2];
     
     //agregar rectangulos
-    Node node1 = new NodeLeaf(m, M);
-    Node node2 = new NodeLeaf(m, M);
+    //if nodetosplit is leaf
+    Node node1;
+    Node node2;
+    if (node_to_split.isLeaf()) {
+      node1 = new NodeLeaf(m, M);
+      node2 = new NodeLeaf(m, M);
+    } else {
+      node1 = new NodeInner(m, M);
+      node2 = new NodeInner(m, M);
+    }
     int in1 = 0;
     int in2 = 0;
     int needed = M - m + 1;
@@ -60,13 +68,13 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       //revisar si ya tiene todos los necesarios
       if (in1 >= needed) {
         //poner en node2
-        node2.addRectangle(rects[i]);
+        node2.addArrayable(arbs[i]);
         continue;
       }
       //revisar si ya tiene todos los necesarios
       if (in2 >= needed) {
         //poner en node1
-        node1.addRectangle(rects[i]);
+        node1.addArrayable(arbs[i]);
         continue;
       }
       
@@ -74,8 +82,8 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       iter_max_incr = 0;
       max_pos = 0;
       for (int j = 0; j <= i; j++) {
-        iter_rect_incr_d1 = node1.findExpansion(rects[j]);
-        iter_rect_incr_d2 = node2.findExpansion(rects[j]);
+        iter_rect_incr_d1 = node1.findExpansion(arbs[j].getRectangle());
+        iter_rect_incr_d2 = node2.findExpansion(arbs[j].getRectangle());
         //ver si es maximo
         if (Math.abs(iter_rect_incr_d1 - iter_rect_incr_d2) >= iter_max_incr) {
           iter_max_incr = Math.abs(iter_rect_incr_d1 - iter_rect_incr_d2);
@@ -84,14 +92,14 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       }
       
       //ver a cual nodo pertenece
-      if (node1.findExpansion(rects[max_pos]) > node2.findExpansion(rects[max_pos])) {
-        node2.addRectangle(rects[max_pos]);
+      if (node1.findExpansion(arbs[max_pos].getRectangle()) > node2.findExpansion(arbs[max_pos].getRectangle())) {
+        node2.addArrayable(arbs[max_pos]);
       } else {
-        node1.addRectangle(rects[max_pos]);
+        node1.addArrayable(arbs[max_pos]);
       }
       
       //ordenar
-      rects[max_pos] = rects[i];
+      arbs[max_pos] = arbs[i];
     }
     
     Node[] res = new Node[2];

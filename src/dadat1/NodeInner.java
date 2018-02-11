@@ -70,21 +70,21 @@ public class NodeInner extends Node{
   }
 
   @Override
-  public Arrayable[] addArrayable(Arrayable arrb) {
+  public Arrayable[] addRectangle(Rectangle rect) {
 	//ver cual en child_array tiene que crecer menos
 	//y agregarlo ahí
     //si le retornar algo distinto a un nodeVoid:
     //partir el con overflow en dos, junto a lo que me devuelva
     //retornar false si hay overflow propio
-    Rectangle rect = arrb.getRectangle();
+    ////Rectangle rect = arrb.getRectangle();
     int tightest = findTightest(rect);
-    Arrayable[] ans = child_array[tightest].addArrayable(rect);
+    Arrayable[] ans = child_array[tightest].addRectangle(rect);
     if (ans[0].isVoid()) {
       return ans;
     } else {
       //partir al de abajo en dos, junto a lo recibido
       //usando la heuristica
-      heuristic.splitNode(child_array[tightest], rect, min, max);
+      ans = heuristic.splitNode(child_array[tightest], rect, min, max);
       return ans;
     }
   }
@@ -113,19 +113,34 @@ public class NodeInner extends Node{
 //  }
 
   @Override
-  public Arrayable[] giveArrayables() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  @Override
-  public Rectangle surroundRect(Arrayable arbs) {
-    // TODO Auto-generated method stub
-    return null;
+  public Arrayable[] getArrayables() {
+    return this.child_array;
   }
 
   @Override
   public Rectangle getRectangle() {
     return this.mbr;
+  }
+
+  @Override
+  public Rectangle[] searchRectangle(Rectangle rect) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+@Override
+public boolean addArrayable(Arrayable arbs) {
+  if (num_nodes < max) {
+    this.child_array[num_nodes] = (Node) arbs;
+    num_nodes++;
+    return true;
+  } else {
+    return false;
+  }
+}
+
+  @Override
+  public boolean isLeaf() {
+    return false;
   }
 }
