@@ -12,7 +12,7 @@ public abstract class Node extends Arrayable implements InterfaceNode{
   
   public double findExpansion(Rectangle rect) {
     Rectangle surr_rect = mbr.surroundRect(rect);
-    double expand_area = surr_rect.giveArea() - this.mbr.giveArea();
+    double expand_area = surr_rect.getArea() - this.mbr.getArea();
     return expand_area;
   }
 }

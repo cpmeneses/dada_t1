@@ -12,4 +12,5 @@ public interface InterfaceNode{
   
   Arrayable[] addRectangle(Rectangle rect);
   Rectangle[] searchRectangle(Rectangle rect);
+  Rectangle[] getRectangles();
 }

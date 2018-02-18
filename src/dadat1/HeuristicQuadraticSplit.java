@@ -20,7 +20,7 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
     arbs[l] = arb_to_add;
     
     //se busca el par con la mayor area inutil
-    double max_useless_area = 0;
+    double max_useless_area = -1;
     int[] max_par = new int[2];
     max_par[0] = -1; //los indices
     max_par[1] = -1;
@@ -30,8 +30,8 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
     for (int i = 0; i < l; i++) {
       for (int j = i+1; j < l; j++) {
         it_mbr = old_arbs[i].getRectangle().surroundRect(old_arbs[j]);
-        it_area = it_mbr.giveArea();
-        it_useless_area = it_area - old_arbs[i].getRectangle().giveArea() - old_arbs[j].getRectangle().giveArea();
+        it_area = it_mbr.getArea();
+        it_useless_area = it_area - old_arbs[i].getRectangle().getTotalArea(old_arbs[j].getRectangle());//old_arbs[i].getRectangle().getArea() - old_arbs[j].getRectangle().getArea(); //quitar el area comun
         if (it_useless_area > max_useless_area) {
           max_useless_area = it_useless_area;
           max_par[0] = i;
@@ -40,9 +40,7 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       }
     }
     
-    //reordenar.
-    arbs[max_par[1]] = arbs[l-1];
-    arbs[max_par[0]] = arbs[l-2];
+    
     
     //agregar rectangulos
     //if nodetosplit is leaf
@@ -55,26 +53,35 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       node1 = new NodeInner(m, M);
       node2 = new NodeInner(m, M);
     }
-    int in1 = 0;
-    int in2 = 0;
+    node1.addArrayable(arbs[max_par[0]]);
+    node2.addArrayable(arbs[max_par[1]]);
+    int in1 = 1;
+    int in2 = 1;
     int needed = M - m + 1;
+    
+    //reordenar.
+    arbs[max_par[1]] = arbs[l]; //(l + 1) - 1
+    arbs[max_par[0]] = arbs[l - 1]; //(l + 1) - 2
+    
     //iter de maximizacion de diferencia
     double iter_rect_incr_d1;
     double iter_rect_incr_d2;
     double iter_max_incr;
     int max_pos;
     
-    for (int i = l-3; i >= 0; i--) {
+    for (int i = l - 2; i >= 0; i--) { // (l + 1) los elementos - 2 los ya puestos - 1 es indice
       //revisar si ya tiene todos los necesarios
       if (in1 >= needed) {
         //poner en node2
         node2.addArrayable(arbs[i]);
+        in2++;
         continue;
       }
       //revisar si ya tiene todos los necesarios
       if (in2 >= needed) {
         //poner en node1
         node1.addArrayable(arbs[i]);
+        in1++;
         continue;
       }
       
@@ -94,8 +101,10 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       //ver a cual nodo pertenece
       if (node1.findExpansion(arbs[max_pos].getRectangle()) > node2.findExpansion(arbs[max_pos].getRectangle())) {
         node2.addArrayable(arbs[max_pos]);
+        in2++;
       } else {
         node1.addArrayable(arbs[max_pos]);
+        in1++;
       }
       
       //ordenar

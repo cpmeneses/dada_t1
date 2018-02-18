@@ -26,6 +26,9 @@ public class HeuristicLinearSplit implements InterfaceHeuristic {
     //aleatorizarlo
     rects = this.randomizeArrayableArray(rects);
     
+    //implementar el algoritmo
+    
+    
     Node[] res = new Node[2];
     res[0] = node1;
     res[1] = node2;
@@ -40,9 +43,7 @@ public class HeuristicLinearSplit implements InterfaceHeuristic {
     for (int i = l-1; i >= 0; i--) {
       pos = rand.nextInt(i+1);
       res[i] = rects[pos];
-      if (pos != i) {
-        rects[pos] = rects[i];
-      }
+      rects[pos] = rects[i];
     }
     return res;
   }

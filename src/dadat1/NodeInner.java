@@ -17,6 +17,7 @@ public class NodeInner extends Node{
     child_array = new Node[M];
     min = m;
     max = M;
+    mbr = new Rectangle();
   }
   
   public void makeRoot() {
@@ -27,10 +28,29 @@ public class NodeInner extends Node{
     if (num_nodes < max) {
       child_array[num_nodes] = node;
       num_nodes++;
+      mbr = mbr.surroundRect(node);
       return true;
     } else {
       return false;
     }
+  }
+  
+  public Rectangle[] getRectangles() {
+    Rectangle[][] arrs = new Rectangle[num_nodes][];
+    int elems = 0;
+    for (int i = 0; i < num_nodes; i++) {
+      arrs[i] = child_array[i].getRectangles();
+      elems += arrs[i].length;
+    }
+    Rectangle[] ans = new Rectangle[elems];
+    int rect_index = 0;
+    for (int i = 0; i < num_nodes; i++) {
+      for (int j = 0; j < arrs[i].length; j++) {
+        ans[rect_index] = arrs[i][j];
+        rect_index++;
+      }
+    }
+    return ans;
   }
   
   public int findTightest(Rectangle rect) {
@@ -84,8 +104,19 @@ public class NodeInner extends Node{
     } else {
       //partir al de abajo en dos, junto a lo recibido
       //usando la heuristica
-      ans = heuristic.splitNode(child_array[tightest], rect, min, max);
-      return ans;
+      Node[] split_nodes = heuristic.splitNode(child_array[tightest], ans[0], min, max);
+      //ver si se pueden agregar?
+      child_array[tightest] = split_nodes[0];
+      if (num_nodes < max) {
+        child_array[num_nodes] = split_nodes[1];
+        num_nodes++;
+        mbr = mbr.surroundRect(split_nodes[1]);
+        ans[0] = new ArrayableVoid();
+        return ans;
+      } else {
+        ans[0] = split_nodes[1];
+        return ans;
+      }
     }
   }
   
@@ -124,8 +155,45 @@ public class NodeInner extends Node{
 
   @Override
   public Rectangle[] searchRectangle(Rectangle rect) {
-    // TODO Auto-generated method stub
-    return null;
+    Rectangle[][] arrs = new Rectangle[num_nodes][];
+    Rectangle[] res;
+    int elems = 0;
+    
+    if (rect.checkOverlap(mbr)) {
+      if (rect.checkOtherInside(mbr)) {
+        for (int i = 0; i < num_nodes; i++) {
+          arrs[i] = child_array[i].getRectangles();
+          elems += arrs[i].length;
+        }
+      } else {
+        for (int i = 0; i < num_nodes; i++) {
+          arrs[i] = child_array[i].searchRectangle(rect);
+          elems += arrs[i].length;
+        }
+      }
+      res = new Rectangle[elems];
+      int rect_index = 0;
+      for (int i = 0; i < num_nodes; i++) {
+        for (int j = 0; j < arrs[i].length; j++) {
+          res[rect_index] = arrs[i][j];
+          rect_index++;
+        }
+      }
+      return res;
+    } else {
+      res = new Rectangle[0];
+      return res;
+    }
+    //else {
+    //  if (rect.checkOverlap(mbr)) {
+    //    //poner el otro caso aqui dentro
+    //  } else {
+    //    res = new Rectangle[0];
+    //    return res;
+    //  }
+    //}
+    //arrs[i] = child_array[i].searchRectangle(rect);
+  
   }
 
 @Override
@@ -133,6 +201,7 @@ public boolean addArrayable(Arrayable arbs) {
   if (num_nodes < max) {
     this.child_array[num_nodes] = (Node) arbs;
     num_nodes++;
+    mbr = mbr.surroundRect(arbs);
     return true;
   } else {
     return false;
