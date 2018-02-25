@@ -220,4 +220,9 @@ class RtreeTest {
     }
     assertEquals(head.search(-11, 11, -11, 11).length, 300);
   }
+  
+  @Test
+  void test_power() {
+    assertEquals(Math.pow(2,10), 1024);
+  }
 }
