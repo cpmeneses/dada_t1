@@ -17,7 +17,7 @@ public class NodeHead {
     Rectangle rect = new Rectangle(x1, x2, y1, y2);
     Arrayable[] arr = real_node.addRectangle(rect);
     if (!arr[0].isVoid()) {
-      NodeInner new_real_node = new NodeInner(m, M);
+      NodeInner new_real_node = new NodeInner(m, M, this.heuristic);
       Node old_node = real_node;
       Node[] split_nodes = heuristic.splitNode(old_node, arr[0], m, M);
       for (int i = 0; i < split_nodes.length; i++) {

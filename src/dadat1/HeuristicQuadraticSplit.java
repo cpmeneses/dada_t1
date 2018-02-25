@@ -50,8 +50,8 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       node1 = new NodeLeaf(m, M);
       node2 = new NodeLeaf(m, M);
     } else {
-      node1 = new NodeInner(m, M);
-      node2 = new NodeInner(m, M);
+      node1 = new NodeInner(m, M, this);
+      node2 = new NodeInner(m, M, this);
     }
     node1.addArrayable(arbs[max_par[0]]);
     node2.addArrayable(arbs[max_par[1]]);
@@ -86,7 +86,7 @@ public class HeuristicQuadraticSplit implements InterfaceHeuristic {
       }
       
       //ver cual rectangulo maximiza la diferencia de incremento
-      iter_max_incr = 0;
+      iter_max_incr = -1; //DEBUG
       max_pos = 0;
       for (int j = 0; j <= i; j++) {
         iter_rect_incr_d1 = node1.findExpansion(arbs[j].getRectangle());

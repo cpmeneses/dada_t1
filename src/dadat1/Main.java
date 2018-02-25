@@ -10,8 +10,9 @@ public class Main {
     //cuantos rectagulos
     System.out.println("Cuantos rectangulos\n");
     int n_rects = scanner.nextInt();
+    HeuristicLinearSplit heur = new HeuristicLinearSplit();
     
-    NodeInner node_root = new NodeInner(2,3);
+    NodeInner node_root = new NodeInner(2, 3, heur);
     node_root.makeRoot();
     
     for (int i = 0; i < n_rects; i++) {

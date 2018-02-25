@@ -11,13 +11,23 @@ public class NodeInner extends Node{
   Rectangle mbr;
   InterfaceHeuristic heuristic;
   
-  public NodeInner(int m, int M) {
+  //public NodeInner(int m, int M) {
+  //  num_nodes = 0;
+  //  isRoot = false;
+  //  child_array = new Node[M];
+  //  min = m;
+  //  max = M;
+  //  mbr = new Rectangle();
+  //}
+  
+  public NodeInner(int m, int M, InterfaceHeuristic heur) {
     num_nodes = 0;
     isRoot = false;
     child_array = new Node[M];
     min = m;
     max = M;
     mbr = new Rectangle();
+    heuristic = heur;
   }
   
   public void makeRoot() {
@@ -100,6 +110,7 @@ public class NodeInner extends Node{
     int tightest = findTightest(rect);
     Arrayable[] ans = child_array[tightest].addRectangle(rect);
     if (ans[0].isVoid()) {
+      mbr = mbr.surroundRect(child_array[tightest]);
       return ans;
     } else {
       //partir al de abajo en dos, junto a lo recibido
