@@ -45,4 +45,9 @@ public class NodeHead {
     Rectangle[] res = real_node.searchRectangle(rect);
     return res;
   }
+  
+  public Rectangle[] search(Rectangle rect) {
+    Rectangle[] res = real_node.searchRectangle(rect);
+    return res;
+  }
 }
